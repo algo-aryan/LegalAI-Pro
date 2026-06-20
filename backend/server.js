@@ -98,18 +98,21 @@ app.post('/api/chat/general', async (req, res) => {
 
 app.post('/api/contract/upload', upload.single('file'), async (req, res) => {
     try {
+        console.log('Received POST /api/contract/upload request with file:', req.file ? req.file.originalname : 'No file');
         if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
 
         const sessionId = uuidv4();
         const filePath = req.file.path;
 
         // Run analysis and save vectorstore
+        console.log(`Starting python process for document analysis. Session: ${sessionId}`);
         const result = await runPythonScript('contract_bot.py', [
             '--mode', 'analyze',
             '--file', filePath,
             '--session', sessionId
         ]);
 
+        console.log(`Completed POST /api/contract/upload request successfully. Session: ${sessionId}`);
         res.json({
             session_id: sessionId,
             message: result.message || 'Contract loaded successfully'
@@ -122,6 +125,7 @@ app.post('/api/contract/upload', upload.single('file'), async (req, res) => {
 
 app.post('/api/contract/chat', async (req, res) => {
     try {
+        console.log('Received POST /api/contract/chat request:', req.body);
         const { session_id, message } = req.body;
         if (!session_id || !message) {
             return res.status(400).json({ error: 'Session ID and message are required' });
@@ -133,6 +137,7 @@ app.post('/api/contract/chat', async (req, res) => {
             '--query', message
         ]);
 
+        console.log('Completed POST /api/contract/chat request successfully');
         res.json(result);
     } catch (error) {
         console.error('Contract chat error:', error);
