@@ -1,7 +1,12 @@
 // api class
 class APIUtils {
-    constructor(baseUrl = "http://localhost:5000/api") {
-        this.apiBaseUrl = baseUrl;
+    constructor(baseUrl = null) {
+        if (baseUrl) {
+            this.apiBaseUrl = baseUrl;
+        } else {
+            const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+            this.apiBaseUrl = isLocalhost ? "http://localhost:5000/api" : "https://legalai-pro-lav4.onrender.com/api";
+        }
     }
     
     async apiCall(endpoint, method = "GET", data = null) {
