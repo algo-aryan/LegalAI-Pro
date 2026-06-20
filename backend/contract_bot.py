@@ -19,7 +19,7 @@ class ContractAnalyzer:
         elif not os.environ.get("GOOGLE_API_KEY"):
             raise ValueError("GOOGLE_API_KEY environment variable is not set")
 
-        self.embedding_model = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
+        self.embedding_model = GoogleGenerativeAIEmbeddings(model="models/text-embedding-004")
         self.llm = ChatGoogleGenerativeAI(model="gemini-pro", temperature=0.3)
 
         self.vectorstore = None
