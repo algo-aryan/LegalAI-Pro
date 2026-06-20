@@ -71,6 +71,7 @@ Legal Assistant:"""
 if __name__ == "__main__":
     import argparse
     import json
+    import sys
     
     parser = argparse.ArgumentParser()
     parser.add_argument("--query", required=True, type=str)
@@ -85,3 +86,4 @@ if __name__ == "__main__":
     answer = bot.ask(args.query)
     
     print(json.dumps({"response": answer}))
+    sys.exit(0)

@@ -56,6 +56,7 @@ function runPythonScript(scriptName, args) {
         });
 
         pythonProcess.on('close', (code) => {
+            console.log(`Python process closed with code ${code}`);
             if (code !== 0) {
                 console.error(`Python script exited with code ${code}: ${stderrData}`);
                 return reject(new Error(stderrData || 'Unknown Python error'));
@@ -77,10 +78,12 @@ function runPythonScript(scriptName, args) {
 // Routes
 app.post('/api/chat/general', async (req, res) => {
     try {
+        console.log('Received POST /api/chat/general request:', req.body);
         const { message } = req.body;
         if (!message) return res.status(400).json({ error: 'Message is required' });
 
         const result = await runPythonScript('general_legal_bot.py', ['--query', message]);
+        console.log('Completed POST /api/chat/general request successfully');
         res.json(result);
     } catch (error) {
         console.error('General chat error:', error);

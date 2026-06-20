@@ -121,6 +121,7 @@ if __name__ == "__main__":
         if success:
             analyzer.save_index(args.session)
             print(json.dumps(analyzer.analyze_contract()))
+            sys.exit(0)
         else:
             print(json.dumps({"error": "Failed to load document"}))
             sys.exit(1)
@@ -134,6 +135,7 @@ if __name__ == "__main__":
         if success:
             answer = analyzer.ask_question(args.query)
             print(json.dumps({"response": answer}))
+            sys.exit(0)
         else:
             print(json.dumps({"error": "Session not found or expired"}))
             sys.exit(1)
