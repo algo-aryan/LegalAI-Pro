@@ -9,9 +9,6 @@ langchain-google-genai==0.0.11
 faiss-cpu==1.7.4
 google-generativeai==0.4.1
 werkzeug==2.3.7
-huggingface-hub==0.20.3
-transformers==4.36.2
-torch==2.5.0
 numpy==1.24.4
 python-dotenv==1.0.0
 pdfplumber==0.11.0
