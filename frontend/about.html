@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Styles -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 <nav class="navbar" id="navbar">
@@ -168,33 +168,6 @@
 <script src="js/ui-utils.js"></script>
 <script src="js/main-app.js"></script>
 
-<!-- Theme Toggle Script -->
-<script>
-    // Initialize theme
-    const currentTheme = localStorage.getItem("theme") || "light";
-    document.documentElement.setAttribute("data-color-scheme", currentTheme);
-    
-    document.addEventListener('DOMContentLoaded', function() {
-        const themeToggle = document.getElementById("theme-toggle");
-        if (themeToggle) {
-            const icon = themeToggle.querySelector("i");
-            if (icon) {
-                icon.className = currentTheme === "light" ? "fas fa-moon" : "fas fa-sun";
-            }
-            
-            themeToggle.addEventListener("click", function() {
-                const currentTheme = document.documentElement.getAttribute("data-color-scheme");
-                const newTheme = currentTheme === "light" ? "dark" : "light";
-                document.documentElement.setAttribute("data-color-scheme", newTheme);
-                localStorage.setItem("theme", newTheme);
-                
-                const icon = themeToggle.querySelector("i");
-                if (icon) {
-                    icon.className = newTheme === "light" ? "fas fa-moon" : "fas fa-sun";
-                }
-            });
-        }
-    });
-</script>
+<script src="js/about.js"></script>
 </body>
 </html>
