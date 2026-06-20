@@ -20,7 +20,7 @@ class ContractAnalyzer:
             raise ValueError("GOOGLE_API_KEY environment variable is not set")
 
         self.embedding_model = GoogleGenerativeAIEmbeddings(model="models/text-embedding-004")
-        self.llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0.3)
+        self.llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash", temperature=0.3)
 
         self.vectorstore = None
         self.qa_chain = None
