@@ -1,7 +1,3 @@
-# legal_bert_service.py
-# Flask blueprint implementing /api/contract/upload
-# Uses law-ai/InLegalBERT only for extraction, but also stores a Gemini ContractAnalyzer for chat
-
 import os
 import io
 import re
@@ -15,11 +11,10 @@ from transformers import AutoTokenizer, AutoModel
 from tqdm import tqdm
 from globals import contract_analyzers
 
-# Import Gemini ContractAnalyzer for chat integration
 from contract_bot import ContractAnalyzer as GeminiContractAnalyzer
 bp = Blueprint("contract_api", __name__)
 
-# ---------------- CONFIG ----------------
+# config
 MODEL_NAME = os.environ.get("LEGAL_MODEL", "law-ai/InLegalBERT")
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 BATCH_SIZE = int(os.environ.get("BATCH_SIZE", 16))
@@ -49,7 +44,7 @@ RISK_KEYWORDS = {
 }
 KEY_TERM_TOP_K = 8
 
-# --------- Model load (global on import) ----------
+# load model
 def _load_model():
     print(f"[legal_bert_service] Loading tokenizer & model {MODEL_NAME} -> {DEVICE}")
     tok = AutoTokenizer.from_pretrained(MODEL_NAME)
@@ -60,7 +55,7 @@ def _load_model():
 
 _tokenizer, _model = _load_model()
 
-# ------------- Utilities -------------
+# utils
 def extract_text_from_pdf_bytes(pdf_bytes: bytes) -> str:
     text_pages = []
     with pdfplumber.open(io.BytesIO(pdf_bytes)) as pdf:
@@ -181,7 +176,7 @@ def extract_duration_candidates(text):
                 break
     return found
 
-# ------------ main analyzer ------------
+# main
 def analyze_text(text):
     sentences = split_to_sentences(text)
     if not sentences:
@@ -191,7 +186,7 @@ def analyze_text(text):
     # Contract type
     type_emb = get_embeddings(CONTRACT_TYPES)
     sims = cosine_sim(type_emb, sent_emb)
-    if sims.size == 0:
+    if sims.size == 0:         
         contract_type = CONTRACT_TYPES[0]
         contract_type_score = 0.0
     else:
@@ -199,8 +194,7 @@ def analyze_text(text):
         best_type_idx = int(np.argmax(max_sims))
         contract_type = CONTRACT_TYPES[best_type_idx]
         contract_type_score = float(max_sims[best_type_idx])
-    # --- Force Lease Agreement if title contains "LEASE"
-    # Improved and more comprehensive contract type keyword mapping
+    # keywords
     AGREEMENT_KEYWORDS = {
         # NDAs
         "NDA": "Non-Disclosure Agreement",
@@ -366,7 +360,7 @@ def analyze_text(text):
         "summary_date": summary_date
     }
 
-# ------------- Flask route --------------
+# api
 @bp.route("/contract/upload", methods=["POST"])
 def upload_and_analyze():
     if "file" not in request.files:

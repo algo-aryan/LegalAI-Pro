@@ -1,6 +1,4 @@
-// Main LegalAI Application Entry Point
-// This file maintains backward compatibility while using the modular structure
-
+// app setup
 class LegalAIApp {
     constructor() {
         this.currentSection = "home";
@@ -9,18 +7,18 @@ class LegalAIApp {
         this.isAnalyzing = false;
         this.uploadedContract = null;
         this.currentSessionId = null;
-        this.apiBaseUrl = "https://legalai-pro.onrender.com/api";
+        this.apiBaseUrl = "http://localhost:5000/api";
         this.currentTheme = localStorage.getItem("theme") || "light";
         
-        // Initialize modules based on current page
+        // init modules
         this.initModules();
     }
     
     initModules() {
-        // Always initialize core functionality
+        // core
         this.apiUtils = new window.APIUtils(this.apiBaseUrl);
         
-        // Initialize page-specific modules
+        // page
         const path = window.location.pathname;
         
         if (path.includes('contract-analyzer') && window.ContractAnalyzer) {
@@ -30,13 +28,10 @@ class LegalAIApp {
         if (path.includes('virtual-assistant') && window.VirtualAssistant) {
             this.virtualAssistant = new window.VirtualAssistant(this.apiUtils);
         }
-        
-        if (path.includes('case-prediction') && window.CasePrediction) {
-            this.casePrediction = new window.CasePrediction(this.apiUtils);
-        }
+
     }
     
-    // Legacy methods for backward compatibility
+    // legacy
     showNotification(message, type) {
         if (window.uiUtils) {
             window.uiUtils.showNotification(message, type);
@@ -46,9 +41,8 @@ class LegalAIApp {
     }
 }
 
-// Initialize the application
+// init
 document.addEventListener('DOMContentLoaded', function() {
-    // Only initialize if modules are available
     if (window.APIUtils) {
         window.legalAIApp = new LegalAIApp();
     }

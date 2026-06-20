@@ -1,9 +1,7 @@
 # backend/contract_bot.py
 
 import os
-from fastapi import FastAPI, UploadFile, File, Form
-from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
+
 import shutil
 
 from langchain.vectorstores import FAISS
@@ -13,13 +11,13 @@ from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAIEmb
 from langchain.prompts import PromptTemplate
 from langchain.chains import RetrievalQA
 
-# -------- Contract Analyzer Class --------
+# class
 class ContractAnalyzer:
     def __init__(self, api_key=None):
         if api_key:
             os.environ["GOOGLE_API_KEY"] = api_key
         elif not os.environ.get("GOOGLE_API_KEY"):
-            os.environ["GOOGLE_API_KEY"] = "AIzaSyAWjNzPom70z6u9P3ZkuCXo5bC6Yr-3D0w"  # Replace
+            raise ValueError("GOOGLE_API_KEY environment variable is not set")
 
         self.embedding_model = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
         self.llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0.3)
@@ -88,38 +86,3 @@ class ContractAnalyzer:
     def analyze_contract(self):
         return {"message": "Contract loaded. Ready for questions."}
 
-
-# -------- FastAPI Setup --------
-app = FastAPI()
-bot = ContractAnalyzer()
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # change to your frontend domain in production
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-class QuestionRequest(BaseModel):
-    question: str
-
-@app.post("/upload_contract")
-async def upload_contract(file: UploadFile = File(...)):
-    try:
-        os.makedirs("uploads", exist_ok=True)
-        file_path = f"uploads/{file.filename}"
-        with open(file_path, "wb") as buffer:
-            shutil.copyfileobj(file.file, buffer)
-
-        if bot.load_document(file_path):
-            return {"message": "Contract uploaded and processed successfully."}
-        else:
-            return {"error": "Failed to process contract."}
-    except Exception as e:
-        return {"error": str(e)}
-
-@app.post("/ask_question")
-async def ask_question(request: QuestionRequest):
-    answer = bot.ask_question(request.question)
-    return {"answer": answer}

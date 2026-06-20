@@ -1,35 +1,31 @@
-# backend/general_legal_bot.py - General Legal Assistant
-
+import os
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationChain
 from langchain.prompts import PromptTemplate
-import os
-
 
 class GeneralLegalBot:
     def __init__(self, api_key=None):
-        """Initialize the general legal bot"""
-        # Set API key
         if api_key:
             google_api_key = api_key
         else:
-            google_api_key = os.environ.get("GOOGLE_API_KEY", "AIzaSyAWjNzPom70z6u9P3ZkuCXo5bC6Yr-3D0w")
+            google_api_key = os.environ.get("GOOGLE_API_KEY")
+            if not google_api_key:
+                raise ValueError("GOOGLE_API_KEY environment variable is not set")
         
-        # Initialize the LLM
+        # llm
         self.llm = ChatGoogleGenerativeAI(
             model="gemini-1.5-flash",
             google_api_key=google_api_key,
             temperature=0.2
         )
         
-        # Initialize memory for conversation history
+        # memory
         self.memory = ConversationBufferMemory(memory_key="history", return_messages=True)
         
-        # Setup prompt template
         self.setup_prompt()
         
-        # Initialize conversation chain
+        # chain
         self.conversation = ConversationChain(
             llm=self.llm,
             memory=self.memory,
@@ -38,7 +34,6 @@ class GeneralLegalBot:
         )
     
     def setup_prompt(self):
-        """Setup the prompt template for general legal assistance"""
         prompt_template = """You are a helpful legal assistant specializing in providing accurate legal information.
 
 Guidelines:
@@ -62,7 +57,6 @@ Legal Assistant:"""
         )
     
     def ask(self, query):
-        """Process a legal question and return response"""
         try:
             response = self.conversation.predict(input=query)
             return response.strip()
@@ -71,16 +65,13 @@ Legal Assistant:"""
             return "I apologize, but I'm experiencing technical difficulties. Please try again later or consult with a qualified attorney for your legal question."
     
     def reset_conversation(self):
-        """Reset the conversation memory"""
         self.memory.clear()
 
 
-# Global instance for the Flask app
+# globals
 _bot_instance = None
 
-
 def get_bot_instance():
-    """Get or create the global bot instance"""
     global _bot_instance
     if _bot_instance is None:
         _bot_instance = GeneralLegalBot()
@@ -88,20 +79,11 @@ def get_bot_instance():
 
 
 def legal_bot(query: str) -> str:
-    """
-    Main function to interact with the legal bot
-    This maintains compatibility with your existing code
-    """
     bot = get_bot_instance()
     return bot.ask(query)
 
 
-# For backward compatibility and testing
 if __name__ == "__main__":
-    # Test the bot
-    print("Testing General Legal Bot...")
-    
-    # Test cases
     test_queries = [
         "What is the difference between bail and parole?",
         "How does contract law work?",

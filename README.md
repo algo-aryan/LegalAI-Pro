@@ -2,7 +2,7 @@
 
 ## AI-Powered Legal Solutions for Modern Law Practices
 
-LegalAI Pro is a comprehensive AI-powered legal technology platform that empowers legal professionals with cutting-edge AI technology for contract analysis, legal assistance, and case prediction. Our advanced algorithms and machine learning models are specifically designed for the legal domain to enhance efficiency and accuracy in legal practice.
+LegalAI Pro is a comprehensive AI-powered legal technology platform that empowers legal professionals with cutting-edge AI technology for contract analysis and legal assistance. Our advanced algorithms and machine learning models are specifically designed for the legal domain to enhance efficiency and accuracy in legal practice.
 
 ## 🚀 Features
 
@@ -19,11 +19,7 @@ LegalAI Pro is a comprehensive AI-powered legal technology platform that empower
 - **Professional Guidance**: Clear, point-wise responses with recommendations to consult qualified attorneys
 - **Multi-Domain Expertise**: Covers various areas of law and legal procedures
 
-### 3. Case Outcome Prediction
-- **AI-Driven Analysis**: Predict case outcomes using historical data and legal precedents
-- **Confidence Scoring**: Provides confidence percentages and detailed analysis
-- **Strategic Recommendations**: Offers strategic decision support and recommendations
-- **Timeline Estimation**: Estimates case duration and potential settlement ranges
+
 
 ## 🛠️ Technology Stack
 
@@ -66,7 +62,7 @@ LegalAI-Pro/
 │   ├── index.html               # Homepage
 │   ├── contract-analyzer.html   # Contract analysis interface
 │   ├── virtual-assistant.html   # Legal assistant chat
-│   ├── case-prediction.html     # Case prediction interface
+
 │   ├── about.html              # About page
 │   └── contact.html            # Contact information
 └── README.md
@@ -141,8 +137,7 @@ uuid
 ### Legal Assistant
 - `POST /api/chat/general` - General legal questions
 
-### Case Prediction
-- `POST /api/case/predict` - Predict case outcomes
+
 
 ## 🎯 Key Features in Detail
 
@@ -193,7 +188,7 @@ uuid
 ## 🚀 Future Enhancements
 
 - Integration with more legal databases
-- Advanced ML models for case prediction
+
 - Multi-language support
 - Real-time collaboration features
 - Integration with legal practice management systems

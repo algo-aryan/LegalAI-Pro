@@ -1,6 +1,6 @@
-// API Utilities for LegalAI
+// api class
 class APIUtils {
-    constructor(baseUrl = "https://legalai-pro.onrender.com/api") {
+    constructor(baseUrl = "http://localhost:5000/api") {
         this.apiBaseUrl = baseUrl;
     }
     
@@ -57,7 +57,7 @@ class APIUtils {
     }
     
     showNotification(message, type) {
-        // Use global UI utils if available, otherwise console log
+        // notify
         if (window.uiUtils) {
             window.uiUtils.showNotification(message, type);
         } else {
@@ -66,5 +66,5 @@ class APIUtils {
     }
 }
 
-// Export for use in other files
+// export
 window.APIUtils = APIUtils;

@@ -1,4 +1,4 @@
-// Utility Functions and Modal Management
+// ui utils
 class UIUtils {
     constructor() {
         this.init();
@@ -11,14 +11,14 @@ class UIUtils {
     }
     
     setupModals() {
-        // Handle Escape key for closing modals
+        // escape
         document.addEventListener("keydown", (e) => {
             if (e.key === "Escape") {
                 this.closeAllModals();
             }
         });
         
-        // Setup modal close handlers
+        // close handlers
         document.querySelectorAll('.modal-close').forEach(closeBtn => {
             closeBtn.addEventListener('click', () => {
                 this.closeAllModals();
@@ -33,12 +33,12 @@ class UIUtils {
     }
     
     closeAllModals() {
-        // Close any open modals
+        // close modals
         document.querySelectorAll(".modal:not(.hidden)").forEach((modal) => {
             modal.classList.add("hidden");
         });
         
-        // Close mobile sidebar
+        // close sidebar
         const sidebar = document.querySelector(".chat-sidebar.active");
         if (sidebar) {
             sidebar.classList.remove("active");
@@ -46,7 +46,7 @@ class UIUtils {
     }
     
     setupResponsive() {
-        // Mobile hamburger menu
+        // mobile menu
         const hamburger = document.getElementById("nav-hamburger");
         const navMenu = document.getElementById("nav-menu");
         if (hamburger && navMenu) {
@@ -56,7 +56,7 @@ class UIUtils {
             });
         }
         
-        // Scroll effects
+        // scroll
         window.addEventListener("scroll", () => {
             const navbar = document.getElementById("navbar");
             if (window.scrollY > 50) {
@@ -68,7 +68,7 @@ class UIUtils {
     }
     
     setupNotifications() {
-        // Create notification container if it doesn't exist
+        // container setup
         if (!document.getElementById('notification-container')) {
             const container = document.createElement('div');
             container.id = 'notification-container';
@@ -103,7 +103,7 @@ class UIUtils {
             transition: all 0.3s ease;
         `;
         
-        // Set background color based on type
+        // bg color
         const colors = {
             success: '#10b981',
             error: '#ef4444', 
@@ -114,13 +114,13 @@ class UIUtils {
         
         container.appendChild(notification);
         
-        // Animate in
+        // animate
         setTimeout(() => {
             notification.style.opacity = '1';
             notification.style.transform = 'translateX(0)';
         }, 10);
         
-        // Auto remove
+        // auto remove
         setTimeout(() => {
             notification.style.opacity = '0';
             notification.style.transform = 'translateX(100%)';
@@ -133,10 +133,10 @@ class UIUtils {
     }
 }
 
-// Global utilities
+// global
 window.UIUtils = UIUtils;
 
-// Initialize utilities on all pages
+// init
 document.addEventListener('DOMContentLoaded', function() {
     window.uiUtils = new UIUtils();
 });
