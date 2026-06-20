@@ -17,7 +17,6 @@ from datetime import datetime
 from general_legal_bot import legal_bot
 from contract_bot import ContractAnalyzer
 from globals import contract_analyzers
-from legal_bert_service import bp as contract_bp
 
 app = Flask(__name__)
 CORS(app)
@@ -26,7 +25,7 @@ UPLOAD_FOLDER = 'uploads'
 VECTORSTORE_FOLDER = 'vectorstore'
 ALLOWED_EXTENSIONS = {'pdf'}
 
-app.register_blueprint(contract_bp, url_prefix="/api")
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(VECTORSTORE_FOLDER, exist_ok=True)
