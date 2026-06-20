@@ -15,7 +15,7 @@ class GeneralLegalBot:
         
         # llm
         self.llm = ChatGoogleGenerativeAI(
-            model="gemini-pro",
+            model="gemini-1.5-flash",
             google_api_key=google_api_key,
             temperature=0.2
         )
