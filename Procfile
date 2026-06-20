@@ -1,1 +1,1 @@
-web: gunicorn --chdir backend app:app --timeout 120
+web: gunicorn --chdir backend --bind 0.0.0.0:$PORT app:app --timeout 120
