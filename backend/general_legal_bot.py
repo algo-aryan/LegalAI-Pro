@@ -68,31 +68,20 @@ Legal Assistant:"""
         self.memory.clear()
 
 
-# globals
-_bot_instance = None
-
-def get_bot_instance():
-    global _bot_instance
-    if _bot_instance is None:
-        _bot_instance = GeneralLegalBot()
-    return _bot_instance
-
-
-def legal_bot(query: str) -> str:
-    bot = get_bot_instance()
-    return bot.ask(query)
-
-
 if __name__ == "__main__":
-    test_queries = [
-        "What is the difference between bail and parole?",
-        "How does contract law work?",
-        "What are the key elements of a valid contract?",
-        "What should I know about employment law?"
-    ]
+    import argparse
+    import json
     
-    for query in test_queries:
-        print(f"\nQ: {query}")
-        response = legal_bot(query)
-        print(f"A: {response}")
-        print("-" * 50)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--query", required=True, type=str)
+    parser.add_argument("--session", type=str, default="default")
+    args = parser.parse_args()
+
+    # Note: For production with a true conversation, we would load/save 
+    # history to disk here using the session ID. For now we will just 
+    # instantiate the bot and answer the question.
+    
+    bot = GeneralLegalBot()
+    answer = bot.ask(args.query)
+    
+    print(json.dumps({"response": answer}))
