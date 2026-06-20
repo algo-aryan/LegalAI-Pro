@@ -7,7 +7,9 @@ class LegalAIApp {
         this.isAnalyzing = false;
         this.uploadedContract = null;
         this.currentSessionId = null;
-        this.apiBaseUrl = "http://localhost:5000/api";
+        const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+        // REPLACE_ME_IN_PRODUCTION with your render backend URL (e.g., "https://legal-ai-backend.onrender.com/api")
+        this.apiBaseUrl = isLocalhost ? "http://localhost:5000/api" : "https://legal-ai-backend.onrender.com/api";
         this.currentTheme = localStorage.getItem("theme") || "light";
         
         // init modules
