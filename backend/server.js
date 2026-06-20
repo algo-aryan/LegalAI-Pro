@@ -36,13 +36,12 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-/**
- * Helper to run Python script and parse JSON output
- */
 function runPythonScript(scriptName, args) {
     return new Promise((resolve, reject) => {
         const scriptPath = path.join(__dirname, scriptName);
-        const pythonProcess = spawn('python3', [scriptPath, ...args]);
+        
+        // Use 'python' instead of 'python3' as Render's environment maps it to 'python'
+        const pythonProcess = spawn('python', [scriptPath, ...args]);
 
         let stdoutData = '';
         let stderrData = '';
@@ -53,6 +52,12 @@ function runPythonScript(scriptName, args) {
 
         pythonProcess.stderr.on('data', (data) => {
             stderrData += data.toString();
+            console.error(`[Python stderr]: ${data.toString()}`);
+        });
+        
+        pythonProcess.on('error', (err) => {
+            console.error('Failed to start python process. Make sure python is installed.', err);
+            reject(err);
         });
 
         pythonProcess.on('close', (code) => {
@@ -63,12 +68,12 @@ function runPythonScript(scriptName, args) {
             }
             try {
                 // Parse the last line as JSON to avoid logging noise
-                const lines = stdoutData.trim().split('\n');
+                const lines = stdoutData.trim().split('\n').filter(line => line.trim() !== '');
                 const lastLine = lines[lines.length - 1];
                 const result = JSON.parse(lastLine);
                 resolve(result);
             } catch (err) {
-                console.error('Failed to parse Python output:', stdoutData);
+                console.error('Failed to parse Python output. Raw stdout:', stdoutData);
                 reject(new Error('Failed to parse Python output'));
             }
         });
