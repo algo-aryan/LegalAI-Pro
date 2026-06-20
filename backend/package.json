@@ -2,10 +2,10 @@
   "name": "legal-ai-platform-backend",
   "version": "1.0.0",
   "description": "Node.js Express backend with Python ML execution",
-  "main": "backend/server.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node backend/server.js",
-    "dev": "nodemon backend/server.js"
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
