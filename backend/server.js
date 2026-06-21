@@ -81,21 +81,6 @@ function runPythonScript(scriptName, args) {
 }
 
 // Routes
-app.post('/api/chat/general', async (req, res) => {
-    try {
-        console.log('Received POST /api/chat/general request:', req.body);
-        const { message } = req.body;
-        if (!message) return res.status(400).json({ error: 'Message is required' });
-
-        const result = await runPythonScript('general_legal_bot.py', ['--query', message]);
-        console.log('Completed POST /api/chat/general request successfully');
-        res.json(result);
-    } catch (error) {
-        console.error('General chat error:', error);
-        res.status(500).json({ error: 'Failed to process general chat' });
-    }
-});
-
 app.post('/api/contract/upload', upload.single('file'), async (req, res) => {
     try {
         console.log('Received POST /api/contract/upload request with file:', req.file ? req.file.originalname : 'No file');

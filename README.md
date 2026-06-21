@@ -10,10 +10,6 @@ LegalAI Pro is a comprehensive legal technology platform designed to streamline 
 - **Key Terms Extraction**: Extract important contract terms, dates, parties, and durations.
 - **Interactive Chat**: Contract-specific chat support using Google Gemini 2.0 Flash for detailed Q&A.
 
-### 2. Virtual Legal Assistant
-- **24/7 Legal Support**: Get instant answers to legal questions across multiple domains.
-- **Conversation Memory**: Maintains conversation history and context for better assistance.
-- **Professional Guidance**: Clear, point-wise responses with recommendations to consult qualified attorneys.
 
 ## Technology Stack
 
@@ -39,13 +35,11 @@ LegalAI-Pro/
 ├── backend/
 │   ├── server.js                 # Node.js Express API gateway
 │   ├── contract_bot.py           # Python script for contract analysis (FAISS/Gemini)
-│   ├── general_legal_bot.py      # Python script for general legal assistant
 │   ├── package.json              # Node.js dependencies
 │   └── uploads/                  # Temporary upload directory
 ├── frontend/
 │   ├── index.html                # Homepage
 │   ├── contract-analyzer.html    # Contract analysis interface
-│   ├── virtual-assistant.html    # Legal assistant chat
 │   ├── about.html                # About page
 │   ├── contact.html              # Contact information
 │   ├── css/                      # Stylesheets
@@ -98,8 +92,6 @@ The API will be available at `http://localhost:5000/api`. The frontend can be se
 - `POST /api/contract/upload` - Upload and analyze a PDF contract (multipart/form-data)
 - `POST /api/contract/chat` - Chat about uploaded contract using session ID
 
-### Legal Assistant
-- `POST /api/chat/general` - General legal questions
 
 ## Privacy & Security
 
